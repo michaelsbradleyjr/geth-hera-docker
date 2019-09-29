@@ -1,10 +1,10 @@
 # multi-stage builder images
 # ------------------------------------------------------------------------------
 
-FROM golang:1.12-alpine as builder-geth
+FROM golang:1.11-alpine as builder-geth
 RUN apk add --no-cache gcc git linux-headers make musl-dev
 RUN cd / \
-    && git clone --branch v1.9.2-evmc.6.3.0-0 \
+    && git clone --branch ewasm-testnet-milestone1 \
                  --depth 1 \
                  https://github.com/ewasm/go-ethereum.git 2> /dev/null \
     && cd go-ethereum \
@@ -14,13 +14,10 @@ RUN cd / \
 
 FROM alpine:latest as builder-hera
 RUN apk add --no-cache cmake g++ gcc git linux-headers make musl-dev
-RUN mkdir hera \
+RUN git clone --branch ewasm-testnet-milestone1 \
+              --depth 1 \
+              https://github.com/ewasm/hera.git 2> /dev/null \
     && cd hera \
-    && git init \
-    && git remote add origin https://github.com/ewasm/hera.git \
-    && git fetch origin --depth=1 \
-                        d77f71e0619d1da90177201b75c4ff922e8c7f00 2> /dev/null \
-    && git reset --hard FETCH_HEAD \
     && git submodule update --init \
     && mkdir build \
     && cd build \
