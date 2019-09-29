@@ -4,6 +4,12 @@ Build the container:
 $ docker build . -t my/geth-hera
 ```
 
+Or pull it from the hub:
+
+```
+$ docker pull michaelsbradleyjr/geth-hera
+```
+
 In a DApp, e.g. `embark_demo`, start the geth-hera container before running
 `embark run` (similar to running a separate `embark blockchain`):
 
