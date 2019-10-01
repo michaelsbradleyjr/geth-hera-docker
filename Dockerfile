@@ -11,16 +11,12 @@ FROM builder-base as builder-geth
 RUN apt-get -y install software-properties-common wget \
     && add-apt-repository -y ppa:longsleep/golang-backports \
     && apt-get update \
-    && apt-get -y install golang-1.12
+    && apt-get -y install golang-1.11
 RUN cd / \
-    && git clone --branch release/1.9-evmc6 \
+    && git clone --branch ewasm-testnet-milestone1 \
                  https://github.com/ewasm/go-ethereum.git 2> /dev/null \
-    && wget https://github.com/ethereum/evmc/archive/v6.3.1.tar.gz \
-    && tar xvzf v6.3.1.tar.gz \
-    && rm -rf /go-ethereum/vendor/github.com/ethereum/evmc \
-    && mv /evmc-6.3.1 /go-ethereum/vendor/github.com/ethereum/evmc \
     && cd go-ethereum \
-    && export "PATH=/usr/lib/go-1.12/bin:$PATH" \
+    && export "PATH=/usr/lib/go-1.11/bin:$PATH" \
     && make geth
 
 # ------------------------------------------------------------------------------
@@ -28,7 +24,7 @@ RUN cd / \
 FROM builder-base as builder-hera
 RUN apt-get -y install cmake
 RUN cd / \
-    && git clone --branch master \
+    && git clone --branch ewasm-testnet-milestone1 \
                  https://github.com/ewasm/hera.git 2> /dev/null \
     && cd hera \
     && git submodule update --init \
